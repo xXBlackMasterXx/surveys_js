@@ -1,4 +1,4 @@
-export function array_filter_matrix(page_code){
+export default function array_filter_matrix(page_code){
     array_filter = [];
     
     response.answers.forEach((answer) => {
