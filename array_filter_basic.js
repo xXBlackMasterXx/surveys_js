@@ -24,7 +24,7 @@ function array_filter(filter, question_code, type, required_selections = 1, erro
             }
         }
 
-        else{
+        else {
             if(type == "exclusive") {
                 // If the row is included in the array filter
                 if(array_filter.includes(index)){
@@ -62,4 +62,9 @@ function array_filter(filter, question_code, type, required_selections = 1, erro
     })
 }
 
-array_filter(filter =  "AF1", question_code = "AF3")
+array_filter(
+    filter =  "AF1", 
+    question_code = "AF3"
+)
+
+matrix_array_filter(filter = "Q1", error_message = "")

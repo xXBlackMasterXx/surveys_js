@@ -1,44 +1,60 @@
-/*
-    NUMERIC ONLY - Version 1
-    Author: Kenneth Díaz González
-    Email: kdi@synoint.com
+function numeric_only(question_code, min = 0, max = Infinity) {
+  // Variable to save your styles
+  var styles = `
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+`;
 
-    A snippet to allow that a textbox only receives numbers
-
-    This code will add this caracteristic for all the text inputs 
-    that appear in the page. If you need to be more specific, use version 2
-    instead.
-*/
-
-// Get all the input texts
-inputs = document.querySelectorAll(".custom-text");
-// Iterate over them
-inputs.forEach((input) => {
-  // If something has been written
-  input.addEventListener("keyup", (e) => {
-    // Replace the letters with empty strings
-    e.target.value = e.target.value.replace(/\D/g, "");
-  });
-});
-
-/*
-    ADVANCED NUMERIC ONLY - Version 2
-    Author: Kenneth Díaz González
-    Email: kdi@synoint.com
-
-    A snippet to allow that a textbox only receives numbers
-
-    This code will add this caracteristic for a specified text input.
-*/
-
-function numeric_only(question_code) {
-  // Get all the input texts
+  // Create a style DOM node
+  var styleSheet = document.createElement("style");
+  // Add the styles to the stylesheet
+  styleSheet.innerText = styles;
+  // Append the stylesheet in the head of the HTML code
+  document.head.appendChild(styleSheet);
   input = document.querySelector("#p_" + question_code + "_1");
-  input.addEventListener("keyup", (e) => {
-    // Replace the letters with empty strings
-    e.target.value = e.target.value.replace(/\D/g, "");
-  });
+  input.type = "number";
+  input.min = min;
+  input.max = max;
+  input.step = "1";
+  
+  input.addEventListener("input", (e) => {
+    if(e.target.value != "") {
+      if(Number(e.target.value) < input.min) {
+        console.log("Menor que minimo")
+        e.target.value = input.min;
+      }
+  
+      else if(Number(e.target.value) > input.max) {
+        console.log("Mayor que maximo");
+        console.log(Number(e.target.value.slice(0, input.max.length)));
+        e.target.value = Number(e.target.value.slice(0, input.max.length));
+        if(e.target.value > input.max) {
+          e.target.value = input.max;
+        }
+      }
+    }
+  })
 }
 
-// Call the function to apply it
-numeric_only("UC1a");
+numeric_only(
+  question_code ="NS1", 
+  min = 0, 
+  max = 100
+)
+
+
+shuffle(
+  question_code = "Q1", 
+  groups = [ 
+      [0,1], 
+      [3,2] 
+  ],
+  randomize_groups = true 
+)

@@ -1,11 +1,11 @@
-function matrix_array_filter(question_code, type, error_message = "Fill out all the rows with a valid response.") {
+function matrix_array_filter(filter, type, error_message = "Fill out all the rows with a valid response.") {
     // Array with indexes from filtered page
     array_filter = [];
 
     // Iterate over the answers
     response.answers.forEach((answer) => {
         // If responses matches to page and question
-        if(answer.questionCode == question_code){
+        if(answer.questionCode == filter){
             // Save data to array filter
             array_filter.push(Number(answer.code)-1);
         }
@@ -37,29 +37,39 @@ function matrix_array_filter(question_code, type, error_message = "Fill out all 
     })
 
     // Get all the rows after the filter
-    displayed_rows = document.querySelectorAll("table > tbody > tr")
+    displayed_rows = document.querySelectorAll("table > tbody > tr");
+
+    // If after array filter/filter exclusive is a blank page
+    if(displayed_rows.length == 0) {
+        // Hide the page
+        document.querySelector("body").style.display = "none";
+        // Go to next page
+        document.querySelector("#p_next").click();
+    }
 
     // Check if next button is pressed
     document.querySelector("#p_next").addEventListener("click", (e) => {
-        // Variable to count number of checked buttons
-        n_checked = 0;
-        // Get all the buttons in the matrix
-        inputs = document.querySelectorAll(".form-check > input");
-        // Count the number of checked buttons
-        inputs.forEach((input) => {
-            if(input.checked == true){
-                n_checked++;
+        // Flag if row is not responded
+        flag = false;
+
+        displayed_rows.forEach((row) => {
+            n_checked = 0;
+            row.querySelectorAll(".form-check > input").forEach((input) => {
+                if(input.checked == true){
+                    n_checked++;
+                }
+            })
+
+            if(n_checked == 0) {
+                flag = true;
             }
         })
 
-        // If the number of checked buttons is not equals to the displayed rows
-        if(n_checked != displayed_rows.length) {
-            // Avoid the next button to go to the next page
+        if(flag == true) {
             e.preventDefault();
-            // Show an alert message
             alert(error_message);
         }
     })
 }
 
-matrix_array_filter(question_code = "AF1")
+matrix_array_filter(filter = "AF1", type = "exclusive")
