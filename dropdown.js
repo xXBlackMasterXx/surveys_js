@@ -1,14 +1,4 @@
-/*
-    FROM DROPDOWN TO RADIO - Version 1
-    Author: Kenneth Díaz González
-    Email: kdi@synoint.com
-
-    A function to convert from radio buttons to dropdown.
- 
-    This function allows to change the question type from
-    single select to dropdown. This version only works if you have a only
-    one single select question in the page. If not, use Version 2 instead.
-*/
+// V1 Works in Firefox, 
 // Get all the single select answers
 var answer_options = document.querySelectorAll(".form-check");
 // Iterate over them
@@ -39,7 +29,7 @@ container.innerHTML +=
 dropdown = document.querySelector("select.form-control");
 
 // Listen to new click events
-dropdown.addEventListener("click", () => {
+dropdown.addEventListener("change", () => {
   // Get the index of the selected option of the dropdown
   selected_index = document.querySelector("select.form-control").selectedIndex;
   // If the selected index doesn't corresponds to the placeholder
@@ -51,38 +41,10 @@ dropdown.addEventListener("click", () => {
   }
 });
 
-/////////////
 
-/*
-    FROM DROPDOWN TO RADIO - Version 2
-    Author: Kenneth Díaz González
-    Email: kdi@synoint.com
-
-    A function to convert from radio buttons to dropdown.
- 
-    This function required the question code of the radio button
-    you want to convert to dropdown.
-
-    This codes works if you have multiple radio buttons in the
-    same page but with different question codes.
-
-    i.e, if you have two single select questions but you need 
-    to convert JUST ONE to dropdown in the same page, you only 
-    need to use this function by passing the question code you want 
-    to convert as an argument.
-
-    Example 1: Convert just one single question to dropdown
-    // Remember to paste the function before using it!
-    from_radio_to_dropdown("Q1")
-
-    Example 2: Convert multiple single select questions to dropdown
-    // Remember to paste the function before using it!
-    from_radio_to_dropdown("Q1")
-    from_radio_to_dropdown("Q2")
-*/
-
+// V2
 // Remember to paste the function below this comment before using it!
-function form_radio_to_dropdown(question_code) {
+function from_radio_to_dropdown(question_code) {
   // Get all the single select answers that corresponds to the question code
   var answer_options = document.querySelectorAll(
     ".question.card div#p_" + question_code + " > .form-check"
@@ -95,13 +57,11 @@ function form_radio_to_dropdown(question_code) {
   });
 
   // Get the container that corresponds to the question code
-  var container = document.querySelector(
-    ".question:has(div#p_" + question_code + ")"
-  );
+  container = document.querySelector("div:is(#p_" + question_code + ")") 
 
   // Get the labels that corresponds to the question code for all the radio buttons
   var labels = document.querySelectorAll(
-    ".question.card div#p_" +
+    "div#p_" +
       question_code +
       " > .form-check > label > div > div"
   );
@@ -119,19 +79,17 @@ function form_radio_to_dropdown(question_code) {
 
   // Add this dropdown with all the options in the question's container
   container.innerHTML +=
-    "<select class='form-control'>" + generated_labels + "</select>";
+    "<select class='form-control' id='dropdown_" + question_code + "'>" + generated_labels + "</select>";
 
   // Get the dropdown we just created
   dropdown = document.querySelector(
-    ".question.card:has(div#p_" + question_code + ") > select.form-control"
+    "div:is(div#p_" + question_code + ") > select.form-control"
   );
 
   // Listen for new click on dropdown
-  dropdown.addEventListener("click", () => {
+  dropdown.addEventListener("change", () => {
     // Get the selected index of the element selected in dropdown
-    selected_index = document.querySelector(
-      ".question.card:has(div#p_" + question_code + ") > select.form-control"
-    ).selectedIndex;
+    selected_index = document.querySelector("#dropdown_" + question_code).selectedIndex;
 
     // If the index doesn't correspond to the placeholder
     if (selected_index != 0) {
@@ -148,4 +106,5 @@ function form_radio_to_dropdown(question_code) {
 }
 
 // Call the function and pass the question code as an argument
-form_radio_to_dropdown("gender_child_1");
+from_radio_to_dropdown("Q1");
+from_radio_to_dropdown("Q2");

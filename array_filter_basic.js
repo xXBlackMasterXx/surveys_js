@@ -1,4 +1,4 @@
-function array_filter(filter, question_code, type, required_selections = 1, error_message = "Add your custom message error") {
+function array_filter(filter, question_code, type, required_selections = 1, error_message = "Please, add your custom message error") {
     // Array with indexes from filtered page
     array_filter = [];
 
@@ -65,6 +65,6 @@ function array_filter(filter, question_code, type, required_selections = 1, erro
 array_filter(
     filter =  "AF1", 
     question_code = "AF3"
-)
+);
 
-matrix_array_filter(filter = "Q1", error_message = "")
+matrix_array_filter(filter = "Q1", error_message = "");
