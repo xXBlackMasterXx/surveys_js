@@ -31,4 +31,8 @@ function add_datepicker(question_code, min_date, max_date) {
 }
 
 // Set the question code of your open text where dates will be saved
-add_datepicker(question_code = "Q1")
+add_datepicker(
+    question_code = "Q1",
+    min_date = "",
+    max_date = ""
+)
